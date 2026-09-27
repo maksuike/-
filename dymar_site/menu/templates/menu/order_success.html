@@ -1,0 +1,26 @@
+{% extends "menu/base.html" %}
+{% block title %}Замовлення прийнято — ДИМАР{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="max-width:640px;">
+    <div class="success-box">
+      <div class="success-icon">✓</div>
+      <h2>Замовлення №{{ order.id }} прийнято</h2>
+      <p>Дякуємо, {{ order.full_name }}! Ми зателефонуємо на {{ order.phone }} для підтвердження.</p>
+      <div class="summary-box" style="margin-top:24px; text-align:left;">
+        {% for item in order.items.all %}
+        <div class="summary-row">
+          <span>{{ item.product_name }} × {{ item.quantity }}</span>
+          <span>{{ item.subtotal }} ₴</span>
+        </div>
+        {% endfor %}
+        <div class="summary-row summary-total">
+          <span>Разом</span>
+          <span>{{ order.total }} ₴</span>
+        </div>
+      </div>
+      <a href="{% url 'home' %}" class="btn btn-solid" style="margin-top:24px;">На головну</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

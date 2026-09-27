@@ -1,0 +1,53 @@
+{% extends "menu/base.html" %}
+{% block title %}Кошик — ДИМАР{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Кошик</div>
+      <h2>Ваше замовлення</h2>
+    </div>
+
+    {% if cart %}
+    <table class="cart-table">
+      <thead>
+        <tr><th>Товар</th><th>Ціна</th><th>Кількість</th><th>Сума</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for row in cart %}
+        <tr>
+          <td class="ct-name">{{ row.item.name }} <span class="ct-unit">{{ row.item.unit }}</span></td>
+          <td>{{ row.item.price }} ₴</td>
+          <td>
+            <form method="post" action="{% url 'cart_update' row.item.id %}" class="qty-form">
+              {% csrf_token %}
+              <input type="number" name="quantity" value="{{ row.quantity }}" min="1" max="99">
+              <button type="submit" class="btn-line-sm">Оновити</button>
+            </form>
+          </td>
+          <td class="ct-sub">{{ row.subtotal }} ₴</td>
+          <td>
+            <form method="post" action="{% url 'cart_remove' row.item.id %}">
+              {% csrf_token %}
+              <button type="submit" class="cart-remove" aria-label="Видалити">✕</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="cart-total">
+      <span>Разом:</span>
+      <b>{{ cart.get_total_price }} ₴</b>
+    </div>
+    <div class="cart-actions">
+      <a href="{% url 'home' %}#products" class="btn btn-line">Продовжити покупки</a>
+      <a href="{% url 'checkout' %}" class="btn btn-solid">Оформити замовлення</a>
+    </div>
+    {% else %}
+    <p>Кошик поки порожній. <a href="{% url 'home' %}#products">Перейти до асортименту</a>.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

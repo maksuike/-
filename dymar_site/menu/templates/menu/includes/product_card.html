@@ -1,0 +1,22 @@
+<div class="pcard reveal">
+  {% if item.is_featured %}<span class="pcard-badge">Хіт</span>{% endif %}
+  <div class="pcard-media">
+    {% if item.image %}
+      <img src="{{ item.image.url }}" alt="{{ item.name }}" loading="lazy">
+    {% else %}
+      <div class="pcard-placeholder"><span>{{ item.name|slice:":1" }}</span></div>
+    {% endif %}
+  </div>
+  <div class="pcard-body">
+    <div class="pcard-name">{{ item.name }}</div>
+    <div class="pcard-unit">{{ item.unit }}</div>
+    <div class="pcard-bottom">
+      <div class="pcard-price">{{ item.price }} ₴</div>
+      <form class="pcard-form" method="post" action="{% url 'cart_add' item.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit" class="pcard-add" data-name="{{ item.name }}" data-item-id="{{ item.id }}">Додати</button>
+      </form>
+    </div>
+  </div>
+</div>

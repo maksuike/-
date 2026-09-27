@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="csrf-token" content="{{ csrf_token }}">
+<title>{% block title %}ДИМАР — крафтове м'ясо та BBQ{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'menu/style.css' %}">
+<script src="{% static 'menu/app.js' %}" defer></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="topbar-contacts">
+      <a href="tel:+380991234567">+380 99 123 45 67</a>
+      <span class="dot">·</span>
+      <a href="mailto:info@dymar.com.ua">info@dymar.com.ua</a>
+    </div>
+    <div class="topbar-note">Доставка по Чернівецькій області</div>
+  </div>
+</div>
+
+<header>
+  <nav class="wrap navbar">
+    <a href="{% url 'home' %}" class="brand">ДИМ<span>АР</span></a>
+    <div class="navlinks">
+      <a href="{% url 'home' %}#products">Асортимент</a>
+      <a href="{% url 'home' %}#why">Переваги</a>
+      <a href="{% url 'home' %}#about">Про нас</a>
+      <a href="{% url 'home' %}#contacts">Контакти</a>
+    </div>
+    <a href="{% url 'cart_detail' %}" class="cart-link" aria-label="Кошик">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+      <span class="cart-count" id="cart-count">{{ cart_count|default:0 }}</span>
+    </a>
+  </nav>
+</header>
+
+{% block content %}{% endblock %}
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <div class="brand" style="margin-bottom:10px;">ДИМ<span>АР</span></div>
+      <p>Крафтове BBQ, мариноване м'ясо та копченості власного виробництва.</p>
+    </div>
+    <div>
+      <h4>Контакти</h4>
+      <p><a href="tel:+380991234567">+380 99 123 45 67</a></p>
+      <p><a href="mailto:info@dymar.com.ua">info@dymar.com.ua</a></p>
+    </div>
+    <div>
+      <h4>Інформація</h4>
+      <p><a href="{% url 'home' %}#products">Асортимент</a></p>
+      <p><a href="{% url 'cart_detail' %}">Кошик</a></p>
+    </div>
+    <div>
+      <h4>Магазини</h4>
+      <p>Доставка тільки по Чернівецькій області</p>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">© {% now "Y" %} ДИМАР. Усі права захищені.</div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

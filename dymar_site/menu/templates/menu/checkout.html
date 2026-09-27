@@ -1,0 +1,50 @@
+{% extends "menu/base.html" %}
+{% block title %}Оформлення замовлення — ДИМАР{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap checkout-grid">
+    <div>
+      <div class="section-head">
+        <div class="kicker">Оформлення</div>
+        <h2>Дані для замовлення</h2>
+      </div>
+      {% if error %}<p class="form-error">{{ error }}</p>{% endif %}
+      <form method="post" class="checkout-form">
+        {% csrf_token %}
+        <label>Ім'я та прізвище
+          <input type="text" name="full_name" required value="{{ request.POST.full_name }}">
+        </label>
+        <label>Телефон
+          <input type="tel" name="phone" required value="{{ request.POST.phone }}">
+        </label>
+        <label>Адреса доставки
+          <input type="text" name="address" value="{{ request.POST.address }}">
+        </label>
+        <label>Коментар до замовлення
+          <textarea name="note" rows="3">{{ request.POST.note }}</textarea>
+        </label>
+        <button type="submit" class="btn btn-solid" style="width:100%;">Підтвердити замовлення</button>
+        <p class="checkout-note">Це демонстраційне оформлення — оплата не підключена, замовлення зберігається для обробки менеджером.</p>
+      </form>
+    </div>
+    <div>
+      <div class="section-head">
+        <div class="kicker">Ваше замовлення</div>
+        <h2>Підсумок</h2>
+      </div>
+      <div class="summary-box">
+        {% for row in cart %}
+        <div class="summary-row">
+          <span>{{ row.item.name }} × {{ row.quantity }}</span>
+          <span>{{ row.subtotal }} ₴</span>
+        </div>
+        {% endfor %}
+        <div class="summary-row summary-total">
+          <span>Разом</span>
+          <span>{{ cart.get_total_price }} ₴</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

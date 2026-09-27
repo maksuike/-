@@ -1,0 +1,132 @@
+{% extends "menu/base.html" %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker" style="color:var(--mustard)">Крафтове BBQ · копчення на дровах</div>
+      <h1>М'ясо з <em>вогнем у серці.</em></h1>
+      <p>Мариноване м'ясо, копченості та BBQ-продукція власного виробництва. Смак, про який запитують «де брав».</p>
+      <div class="hero-cta">
+        <a href="#products" class="btn btn-solid">Перейти до асортименту</a>
+        <a href="tel:+380991234567" class="btn btn-line">Зателефонувати</a>
+      </div>
+    </div>
+    <div class="truck-badge reveal">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="smoke">
+          <path d="M60 14c-4 10 3 14-2 24" stroke="#8a8172" stroke-width="3" stroke-linecap="round"/>
+          <path d="M70 18c-4 9 2 13-2 22" stroke="#8a8172" stroke-width="3" stroke-linecap="round"/>
+          <path d="M50 20c-3 8 2 12-1 20" stroke="#8a8172" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <ellipse cx="60" cy="78" rx="34" ry="14" fill="#211d19"/>
+        <ellipse cx="60" cy="70" rx="34" ry="14" fill="#c1440e"/>
+        <ellipse cx="60" cy="70" rx="34" ry="14" fill="none" stroke="#7c2415" stroke-width="2"/>
+        <rect x="52" y="48" width="16" height="24" rx="3" fill="#e8a93e"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+{% if featured %}
+<section class="section" id="top">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Топ продажів</div>
+      <h2>Найпопулярніший вибір клієнтів</h2>
+    </div>
+    <div class="product-grid">
+      {% for item in featured %}
+        {% include "menu/includes/product_card.html" %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section menu-section" id="products">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Асортимент</div>
+      <h2>Виберіть категорію — знайдете все для ідеального BBQ</h2>
+    </div>
+
+    {% if categories %}
+      {% for category in categories %}
+      <div class="menu-cat">
+        <h3 class="reveal">{{ category.name }}</h3>
+        <div class="product-grid">
+          {% for item in category.items.all %}
+            {% if item.is_available %}
+              {% include "menu/includes/product_card.html" %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+    <p>Асортимент поки порожній. Додайте категорії й товари в адмінці (<code>/admin/</code>) або запустіть <code>python manage.py seed_menu</code>.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% if features %}
+<section class="section about-section" id="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Чому обирають нас</div>
+      <h2>Кожен продукт із душею — від сировини до готової страви</h2>
+    </div>
+    <div class="feature-grid">
+      {% for f in features %}
+      <div class="feature-card reveal">
+        <h3>{{ f.title }}</h3>
+        <p>{{ f.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section" id="about">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <div class="kicker">Про нас</div>
+      <h2>Вогонь, дим і якісне м'ясо</h2>
+      <p>ДИМАР — це гаряче м'ясо, приготоване на дровах. Ми продаємо свіже мариноване м'ясо та власноруч коптимо продукцію невеликими партіями, щоб зберегти якість і свіжість.</p>
+      <p style="margin-top:14px">Особливу увагу приділяємо пакуванню: кожне замовлення дбайливо упаковуємо, щоб воно приїхало таким же апетитним, яким щойно вийшло з коптильні.</p>
+    </div>
+    <div class="stat-list reveal">
+      <div class="stat"><b>3</b><span>власні магазини</span></div>
+      <div class="stat"><b>щодня</b><span>приготування малими партіями</span></div>
+      <div class="stat"><b>свій</b><span>смокер і справжній дим</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact-section" id="contacts">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Контакти</div>
+      <h2 style="color:var(--cream)">Завітайте до нас або замовте онлайн</h2>
+    </div>
+    <div class="store-grid">
+      {% for store in stores %}
+      <div class="store-card reveal">
+        <h3>{{ store.name }}</h3>
+        <p>{{ store.address }}</p>
+        <p>{{ store.hours }}</p>
+        <p><a href="tel:{{ store.phone }}">{{ store.phone }}</a></p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="contact-info" style="margin-top:36px;">
+      <p>Телефон: <a href="tel:+380991234567">+380 99 123 45 67</a> · Email: <a href="mailto:info@dymar.com.ua">info@dymar.com.ua</a></p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
